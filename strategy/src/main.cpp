@@ -5,12 +5,23 @@
 #include "canvas.h"
 #include "constants.h"
 
+template<typename Callback>
+void paintOntoCanvas(sf::RenderWindow& window, Callback callback) {
+    for (int y = -5; y <= 5; y++) {
+        for (int x = -5; x <= 5; x++) {
+            callback(
+                sf::Mouse::getPosition(window).x + x,
+                sf::Mouse::getPosition(window).y + y 
+            );
+        }
+    }
+}
 
 int main() {
     sf::RenderWindow window({WIDTH, HEIGHT}, "Fake Paint", sf::Style::Close);
     window.setFramerateLimit(60);
 
-    Canvas canvas;
+    Canvas canvas(WIDTH, HEIGHT);
 
     while (window.isOpen()) {
         sf::Event e;
@@ -24,17 +35,16 @@ int main() {
                     break;
             }
         }
-        //INput
+        //Input
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            for (int y = -5; y <= 5; y++) {
-                for (int x = -5; x <= 5; x++) {
-                    canvas.changePixel(
-                        sf::Mouse::getPosition(window).x + x,
-                        sf::Mouse::getPosition(window).y + y,
-                        sf::Color::Black
-                    );
-                }
-            }
+            paintOntoCanvas(window, [&canvas](unsigned x, unsigned y) {
+                canvas.changePixel(x, y, sf::Color::Black);
+            }); 
+        }
+        else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+            paintOntoCanvas(window, [&canvas](unsigned x, unsigned y) {
+                canvas.erasePixel(x, y);
+            });
         }
 
         //Update
@@ -45,5 +55,4 @@ int main() {
         canvas.render(window);
         window.display();
     }
-    
 }
