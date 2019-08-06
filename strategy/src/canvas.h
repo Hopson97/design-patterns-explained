@@ -16,8 +16,10 @@ class Canvas {
         /**
          * @brief Construct a new Canvas object
          * Initilizes data required for canvas to operate
+         * @param width The width of the canvas in pixels 
+         * @param height The height of the canvas in pixels
          */
-        Canvas();
+        Canvas(unsigned width, unsigned height);
 
         /**
          * @brief Update the canvas image to display what has been drawn since last update
@@ -32,10 +34,28 @@ class Canvas {
          */
         void render(sf::RenderWindow& window);
 
-        void changePixel(unsigned x, unsigned y, sf::Color color);        
+        /**
+         * @brief Change the colour of a pixel
+         * 
+         * @param x The x-coordinate to change
+         * @param y The y-coordinate to change
+         * @param color The colour to change the pixel colour to
+         */
+        void changePixel(unsigned x, unsigned y, sf::Color color); 
+
+        /**
+         * @brief Erases a pixel from the canvas
+         * 
+         * @param x The x-coordinate to erase
+         * @param y The y-coordinate to erase
+         */
+        void erasePixel(unsigned x, unsigned y);       
 
     private:
         sf::Image m_canvas;
         sf::Texture m_canvasTexture;
         sf::RectangleShape m_renderCanvas;
+
+        unsigned m_width;
+        unsigned m_height;
 };
