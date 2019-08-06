@@ -2,13 +2,28 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Color.hpp>
 
+#include <cmath>
+
 #include "canvas.h"
 #include "constants.h"
 
 template<typename Callback>
 void paintOntoCanvas(sf::RenderWindow& window, Callback callback) {
-    for (int y = -5; y <= 5; y++) {
-        for (int x = -5; x <= 5; x++) {
+    int mouseX = sf::Mouse::getPosition(window).x;
+    int mouseY = sf::Mouse::getPosition(window).y;
+    int radius = 7;
+    for (int y = -radius; y <= radius; y++) {
+        for (int x = -radius; x <= radius; x++) {
+            int actualX = mouseX + x;
+            int actualY = mouseY + y;
+
+            int dx = std::abs(mouseX - actualX);
+            int dy = std::abs(mouseY - actualY);
+
+            if(std::sqrt(dx * dx + dy * dy) > radius) {
+                continue;
+            }
+
             callback(
                 sf::Mouse::getPosition(window).x + x,
                 sf::Mouse::getPosition(window).y + y 
