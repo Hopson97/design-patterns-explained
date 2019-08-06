@@ -4,7 +4,7 @@
 
 Canvas::Canvas()
 :   m_renderCanvas({WIDTH, HEIGHT}) {
-    m_canvas.create(WIDTH, HEIGHT);
+    m_canvas.create(WIDTH, HEIGHT, sf::Color::White);
     m_canvasTexture.loadFromImage(m_canvas);
     m_renderCanvas.setTexture(&m_canvasTexture);
 }
