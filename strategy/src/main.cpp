@@ -22,6 +22,9 @@ int main() {
                     break;
             }
         }
+        window.clear();
+
+        window.display();
     }
     
 }
