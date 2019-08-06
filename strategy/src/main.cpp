@@ -1,10 +1,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-namespace {
-    constexpr unsigned WIDTH = 1280;
-    constexpr unsigned HEIGHT = 720;
-}
+#include "constants.h"
+
 
 int main() {
     sf::RenderWindow window({WIDTH, HEIGHT}, "Fake Paint", sf::Style::Close);
