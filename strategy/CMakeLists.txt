@@ -6,6 +6,7 @@ project(fake-paint VERSION 1.0)
 #Set executable
 set(SOURCES
     src/main.cpp
+    src/canvas.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
