@@ -16,3 +16,11 @@ void Canvas::update() {
 void Canvas::render(sf::RenderWindow& window) {
     window.draw(m_renderCanvas);
 }
+
+void Canvas::changePixel(unsigned x, unsigned y, sf::Color color) {
+    if (x >= WIDTH || y >= HEIGHT) {
+        return;
+    }
+
+    m_canvas.setPixel(x, y, color);
+}    

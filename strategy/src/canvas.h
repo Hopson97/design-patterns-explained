@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 /**
  * @brief The class that holds information about the image
@@ -31,7 +32,7 @@ class Canvas {
          */
         void render(sf::RenderWindow& window);
 
-        
+        void changePixel(unsigned x, unsigned y, sf::Color color);        
 
     private:
         sf::Image m_canvas;
