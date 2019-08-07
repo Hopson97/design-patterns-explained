@@ -21,12 +21,7 @@ void Canvas::render(sf::RenderWindow& window) {
 }
 
 void Canvas::changePixel(unsigned x, unsigned y, sf::Color color) {
-    if (x >= m_width || y >= m_height) {
-        return;
-    }
-    else {
-        m_canvas.setPixel(x, y, color);
-    }
+    x >= m_width || y >= m_height ? return : m_canvas.setPixel(x, y, color);
 }    
 
 void Canvas::erasePixel(unsigned x, unsigned y) {
