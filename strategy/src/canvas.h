@@ -19,7 +19,7 @@ class Canvas {
          * @param width The width of the canvas in pixels 
          * @param height The height of the canvas in pixels
          */
-        Canvas(unsigned width, unsigned height);
+        Canvas(unsigned width, unsigned height, unsigned x, unsigned y);
 
         /**
          * @brief Update the canvas image to display what has been drawn since last update
@@ -56,6 +56,5 @@ class Canvas {
         sf::Texture m_canvasTexture;
         sf::RectangleShape m_renderCanvas;
 
-        unsigned m_width;
-        unsigned m_height;
+        const sf::IntRect m_bounds;
 };

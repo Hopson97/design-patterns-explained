@@ -11,7 +11,7 @@ template<typename Callback>
 void paintOntoCanvas(sf::RenderWindow& window, Callback callback) {
     int mouseX = sf::Mouse::getPosition(window).x;
     int mouseY = sf::Mouse::getPosition(window).y;
-    int radius = 7;
+    int radius = 4;
     for (int y = -radius; y <= radius; y++) {
         for (int x = -radius; x <= radius; x++) {
             int actualX = mouseX + x;
@@ -36,7 +36,13 @@ int main() {
     sf::RenderWindow window({WIDTH, HEIGHT}, "Fake Paint", sf::Style::Close);
     window.setFramerateLimit(60);
 
-    Canvas canvas(WIDTH, HEIGHT);
+    Canvas canvas(WIDTH, HEIGHT - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT);
+
+    sf::RectangleShape toolbar({WIDTH, TOOLBAR_HEIGHT});
+    toolbar.setPosition(0, 0);
+    toolbar.setFillColor({230, 230, 230});
+    toolbar.setOutlineColor(sf::Color::Black);
+    toolbar.setOutlineThickness(3);
 
     while (window.isOpen()) {
         sf::Event e;
@@ -68,6 +74,7 @@ int main() {
         //Render
         window.clear();
         canvas.render(window);
+        window.draw(toolbar);
         window.display();
     }
 }

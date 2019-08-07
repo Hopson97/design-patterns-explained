@@ -4,14 +4,16 @@
 
 #include <iostream>
 
-Canvas::Canvas(unsigned width, unsigned height)
+Canvas::Canvas(unsigned width, unsigned height, unsigned x, unsigned y)
 :   m_renderCanvas({WIDTH, HEIGHT})
-,   m_width (width)
-,   m_height(height)
+,   m_bounds(x, y, width, height)
 {
-    m_canvas.create(m_width, m_height, sf::Color::White);
+    m_canvas.create(width, height, sf::Color::White);
     m_canvasTexture.loadFromImage(m_canvas);
     m_renderCanvas.setTexture(&m_canvasTexture);
+    m_renderCanvas.setPosition(x, y);
+    m_renderCanvas.setOutlineThickness(3);
+    m_renderCanvas.setOutlineColor(sf::Color::Black);
 }
 
 void Canvas::update() {
@@ -23,9 +25,8 @@ void Canvas::render(sf::RenderWindow& window) {
 }
 
 void Canvas::changePixel(unsigned x, unsigned y, sf::Color color) {
-    std::cout << x << " " << y << std::endl;
-    if (x < m_width && y < m_height) {
-        m_canvas.setPixel(x, y, color);
+    if (m_bounds.contains(x, y)) {
+        m_canvas.setPixel(x - m_bounds.left, y + m_bounds.top, color);
     }
 }    
 
