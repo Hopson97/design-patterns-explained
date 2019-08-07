@@ -2,6 +2,8 @@
 
 #include "constants.h"
 
+#include <iostream>
+
 Canvas::Canvas(unsigned width, unsigned height)
 :   m_renderCanvas({WIDTH, HEIGHT})
 ,   m_width (width)
@@ -21,7 +23,10 @@ void Canvas::render(sf::RenderWindow& window) {
 }
 
 void Canvas::changePixel(unsigned x, unsigned y, sf::Color color) {
-    x >= m_width || y >= m_height ? return : m_canvas.setPixel(x, y, color);
+    std::cout << x << " " << y << std::endl;
+    if (x < m_width && y < m_height) {
+        m_canvas.setPixel(x, y, color);
+    }
 }    
 
 void Canvas::erasePixel(unsigned x, unsigned y) {
