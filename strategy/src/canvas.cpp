@@ -26,7 +26,7 @@ void Canvas::render(sf::RenderWindow& window) {
 
 void Canvas::changePixel(unsigned x, unsigned y, sf::Color color) {
     if (m_bounds.contains(x, y)) {
-        m_canvas.setPixel(x - m_bounds.left, y + m_bounds.top, color);
+        m_canvas.setPixel(x - m_bounds.left, y - m_bounds.top, color);
     }
 }    
 

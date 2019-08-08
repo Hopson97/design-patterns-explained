@@ -8,7 +8,7 @@
 #include "constants.h"
 
 template<typename Callback>
-void paintOntoCanvas(sf::RenderWindow& window, Callback callback) {
+void paintOntoCanvas(sf::RenderWindow& window, sf::Event& e, Callback callback) {
     int mouseX = sf::Mouse::getPosition(window).x;
     int mouseY = sf::Mouse::getPosition(window).y;
     int radius = 4;
@@ -25,8 +25,8 @@ void paintOntoCanvas(sf::RenderWindow& window, Callback callback) {
             }
 
             callback(
-                sf::Mouse::getPosition(window).x + x,
-                sf::Mouse::getPosition(window).y + y 
+                e.mouseMove.x + x,
+                e.mouseMove.y + y 
             );
         }
     }
@@ -44,10 +44,56 @@ int main() {
     toolbar.setOutlineColor(sf::Color::Black);
     toolbar.setOutlineThickness(3);
 
+    bool mouseLeftDown = false;
+    bool mouseRightDown = false;
+
     while (window.isOpen()) {
         sf::Event e;
         while (window.pollEvent(e)) {
             switch (e.type) {
+                case sf::Event::MouseButtonPressed:
+                    switch(e.mouseButton.button) {
+                        case sf::Mouse::Left:
+                            mouseLeftDown = true;
+                            break;
+
+                        case sf::Mouse::Right:
+                            mouseRightDown = true;
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                case sf::Event::MouseButtonReleased:
+                    switch(e.mouseButton.button) {
+                        case sf::Mouse::Left:
+                            mouseLeftDown = false;
+                            break;
+
+                        case sf::Mouse::Right:
+                            mouseRightDown = false;
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                case sf::Event::MouseMoved:
+                    if (mouseLeftDown) {
+                        paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
+                            canvas.changePixel(x, y, sf::Color::Black);
+                        });
+                    }
+                    else if (mouseRightDown) {
+                        paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
+                            canvas.erasePixel(x, y);
+                        });
+                    }
+                    break;
+
                 case sf::Event::Closed:
                     window.close();
                     break;
@@ -56,18 +102,6 @@ int main() {
                     break;
             }
         }
-        //Input
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            paintOntoCanvas(window, [&canvas](unsigned x, unsigned y) {
-                canvas.changePixel(x, y, sf::Color::Black);
-            }); 
-        }
-        else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-            paintOntoCanvas(window, [&canvas](unsigned x, unsigned y) {
-                canvas.erasePixel(x, y);
-            });
-        }
-
         //Update
         canvas.update();
 
