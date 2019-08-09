@@ -7,6 +7,7 @@ project(fake-paint VERSION 1.0)
 set(SOURCES
     src/main.cpp
     src/canvas.cpp
+    src/button.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
