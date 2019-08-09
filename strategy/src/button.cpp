@@ -1,8 +1,10 @@
 #include "button.h"
 
+#include <iostream>
+
 Button::Button(int x, int y, const sf::Texture& texture)
 :   m_button    ({Button::BUTTON_SIZE, Button::BUTTON_SIZE})
-,   m_texture   (texture){
+{
     m_button.setPosition(x, y);
     m_button.setTexture(&texture);
 
@@ -10,7 +12,7 @@ Button::Button(int x, int y, const sf::Texture& texture)
     m_button.setOutlineThickness(2);
 }
 
-bool Button::isClicked(sf::Event e) const{
+bool Button::isClicked(sf::Event e) const {
     switch (e.type) 
     {
         case sf::Event::MouseButtonPressed:

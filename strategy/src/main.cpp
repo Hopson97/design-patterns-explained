@@ -3,12 +3,21 @@
 #include <SFML/Graphics/Color.hpp>
 
 #include <functional>
-
+#include <iostream>
 #include <cmath>
 
 #include "canvas.h"
 #include "constants.h"
 #include "button.h"
+
+enum class ToolType {
+    PaintBrush  = 0,
+    Fill        = 1,
+    Line        = 2,
+    Pencil      = 3,
+    SprayCan    = 4,
+    Square      = 5
+};
 
 void paintOntoCanvas(sf::RenderWindow& window, sf::Event& e, std::function<void(unsigned, unsigned)> callback) {
     int mouseX = sf::Mouse::getPosition(window).x;
@@ -43,7 +52,6 @@ Button makeButton(const sf::Texture& icon) {
 int main() {
     sf::RenderWindow window({WIDTH, HEIGHT}, "Fake Paint", sf::Style::Close);
     window.setFramerateLimit(60);
-    window.setMouseCursorVisible(false);
 
     Canvas canvas(WIDTH, HEIGHT - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT);
 
@@ -82,6 +90,8 @@ int main() {
     bool mouseLeftDown = false;
     bool mouseRightDown = false;
 
+    ToolType currentTool = ToolType::PaintBrush;
+
     //Main loop
     while (window.isOpen()) {
         sf::Event e;
@@ -90,6 +100,24 @@ int main() {
                 case sf::Event::MouseButtonPressed:
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
+                            if (paintBrushButton.isClicked(e)) {
+                                currentTool = ToolType::PaintBrush;
+                            }
+                            else if (fillButton.isClicked(e)) {
+                                currentTool = ToolType::Fill;
+                            }
+                            else if (pencilButton.isClicked(e)) {
+                                currentTool = ToolType::Pencil;
+                            }
+                            else if (sprayButton.isClicked(e)) {
+                                currentTool = ToolType::SprayCan;
+                            }
+                            else if (lineButton.isClicked(e)) {
+                                currentTool = ToolType::Line;
+                            }
+                            else if (squareButton.isClicked(e)) {
+                                currentTool = ToolType::Square;
+                            }
                             mouseLeftDown = true;
                             break;
 
@@ -119,9 +147,29 @@ int main() {
 
                 case sf::Event::MouseMoved:
                     if (mouseLeftDown) {
-                        paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
-                            canvas.changePixel(x, y, sf::Color::Black);
-                        });
+                        switch (currentTool)
+                        {
+                            case ToolType::PaintBrush:
+                                paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
+                                    canvas.changePixel(x, y, sf::Color::Black);
+                                });
+                                break;
+
+                            case ToolType::Fill:
+                                break;
+
+                            case ToolType::Line:
+                                break;
+
+                            case ToolType::Pencil:
+                                break;
+
+                            case ToolType::SprayCan:
+                                break;
+
+                            case ToolType::Square:
+                                break;
+                        };
                     }
                     else if (mouseRightDown) {
                         paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
