@@ -5,6 +5,8 @@
 #include <functional>
 #include <iostream>
 #include <cmath>
+#include <random>
+#include <cstdlib>
 
 #include "canvas.h"
 #include "constants.h"
@@ -19,17 +21,20 @@ enum class ToolType {
     Square      = 5
 };
 
-void paintOntoCanvas(sf::RenderWindow& window, sf::Event& e, std::function<void(unsigned, unsigned)> callback) {
-    int mouseX = sf::Mouse::getPosition(window).x;
-    int mouseY = sf::Mouse::getPosition(window).y;
+//////////
+///
+/// PAINT
+///
+//////////
+void paintOntoCanvas(sf::Event& e, std::function<void(unsigned, unsigned)> callback) {
     int radius = 4;
     for (int y = -radius; y <= radius; y++) {
         for (int x = -radius; x <= radius; x++) {
-            int actualX = mouseX + x;
-            int actualY = mouseY + y;
+            int actualX = e.mouseMove.x + x;
+            int actualY = e.mouseMove.y + y;
 
-            int dx = std::abs(mouseX - actualX);
-            int dy = std::abs(mouseY - actualY);
+            int dx = std::abs(e.mouseMove.x - actualX);
+            int dy = std::abs(e.mouseMove.y - actualY);
 
             if(std::sqrt(dx * dx + dy * dy) <= radius) {
                 callback(
@@ -41,10 +46,38 @@ void paintOntoCanvas(sf::RenderWindow& window, sf::Event& e, std::function<void(
     }
 }
 
+//////////
+///
+/// FLOOD
+///
+//////////
+void flood (Canvas& canvas, sf::Color fillColour, sf::Color targetColour, unsigned x, unsigned y, int count) {
+    if (count > 50000) {
+        return;
+    }
+    auto pxColour = canvas.getPixelColour(x, y);
+    if(pxColour) {
+        auto r = pxColour->r;
+        auto g = pxColour->r;
+        auto b = pxColour->r;
+        if (r == targetColour.r && g == targetColour.g && b == targetColour.b) {
+            canvas.changePixel(x, y, fillColour);
+            flood(canvas, fillColour, targetColour, x + 1, y, count++);
+            flood(canvas, fillColour, targetColour, x - 1, y, count++);
+            flood(canvas, fillColour, targetColour, x, y + 1, count++);
+            flood(canvas, fillColour, targetColour, x, y - 1, count++);
+        }
+    }
+}
+
+void fill(sf::Event e, Canvas& canvas, sf::Color fillColour, sf::Color targetColour) {
+    flood(canvas, fillColour, targetColour, e.mouseMove.x, e.mouseMove.y, 0);
+}
+
 Button makeButton(const sf::Texture& icon) {
     static int currentX = 10;
 
-    Button paintBrushButton(currentX, 10, icon);
+    Button paintBrushButton(currentX, HEIGHT - 10 - Button::BUTTON_SIZE, icon);
     currentX += Button::BUTTON_SIZE * 2;
     return paintBrushButton;
 }
@@ -52,15 +85,17 @@ Button makeButton(const sf::Texture& icon) {
 int main() {
     sf::RenderWindow window({WIDTH, HEIGHT}, "Fake Paint", sf::Style::Close);
     window.setFramerateLimit(60);
+    
+    std::srand(std::time_t(nullptr)); //I know rand() is bad, but it is fine for this
 
-    Canvas canvas(WIDTH, HEIGHT - TOOLBAR_HEIGHT, 0, TOOLBAR_HEIGHT);
+    Canvas canvas(WIDTH, HEIGHT - TOOLBAR_HEIGHT, 0, 0);
 
     /*
         Setting up the toolbar
      */
     //Background of toolbar
     sf::RectangleShape toolbar({WIDTH, TOOLBAR_HEIGHT});
-    toolbar.setPosition(0, 0);
+    toolbar.setPosition(0, HEIGHT - TOOLBAR_HEIGHT);
     toolbar.setFillColor({230, 230, 230});
     toolbar.setOutlineColor(sf::Color::Black);
     toolbar.setOutlineThickness(3);
@@ -150,12 +185,13 @@ int main() {
                         switch (currentTool)
                         {
                             case ToolType::PaintBrush:
-                                paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
+                                paintOntoCanvas(e, [&canvas](unsigned x, unsigned y) {
                                     canvas.changePixel(x, y, sf::Color::Black);
                                 });
                                 break;
 
                             case ToolType::Fill:
+                                fill(e, canvas, sf::Color::Black, sf::Color::White);
                                 break;
 
                             case ToolType::Line:
@@ -165,6 +201,11 @@ int main() {
                                 break;
 
                             case ToolType::SprayCan:
+                                paintOntoCanvas(e, [&canvas](unsigned x, unsigned y) {
+                                    if (std::rand() % 100 > 50) {
+                                        canvas.changePixel(x, y, sf::Color::Black);
+                                    }
+                                });
                                 break;
 
                             case ToolType::Square:
@@ -172,7 +213,7 @@ int main() {
                         };
                     }
                     else if (mouseRightDown) {
-                        paintOntoCanvas(window, e, [&canvas](unsigned x, unsigned y) {
+                        paintOntoCanvas(e, [&canvas](unsigned x, unsigned y) {
                             canvas.erasePixel(x, y);
                         });
                     }

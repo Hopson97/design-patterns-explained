@@ -25,11 +25,23 @@ void Canvas::render(sf::RenderWindow& window) {
 }
 
 void Canvas::changePixel(unsigned x, unsigned y, sf::Color color) {
-    if (m_bounds.contains(x, y)) {
-        m_canvas.setPixel(x - m_bounds.left, y - m_bounds.top, color);
+    if (isLocationInBounds(x, y)) {
+        m_canvas.setPixel(x, y, color);
     }
 }    
 
 void Canvas::erasePixel(unsigned x, unsigned y) {
     changePixel(x, y, sf::Color::White);
+}
+
+std::optional<sf::Color> Canvas::getPixelColour(unsigned x, unsigned y) const {
+    if (isLocationInBounds(x, y)) {
+        return m_canvas.getPixel(x, y);
+    }
+    
+    return {};
+}
+
+bool Canvas::isLocationInBounds(unsigned x, unsigned y) const {
+    return m_bounds.contains(x, y);
 }

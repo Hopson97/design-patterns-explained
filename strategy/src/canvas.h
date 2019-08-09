@@ -6,6 +6,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Color.hpp>
 
+#include <optional>
+
 /**
  * @brief The class that holds information about the image
  * the user is drawing onto
@@ -43,6 +45,8 @@ class Canvas {
          */
         void changePixel(unsigned x, unsigned y, sf::Color color); 
 
+        std::optional<sf::Color> getPixelColour(unsigned x, unsigned y) const;
+
         /**
          * @brief Erases a pixel from the canvas
          * 
@@ -52,6 +56,7 @@ class Canvas {
         void erasePixel(unsigned x, unsigned y);       
 
     private:
+        bool isLocationInBounds(unsigned x, unsigned y) const;
         sf::Image m_canvas;
         sf::Texture m_canvasTexture;
         sf::RectangleShape m_renderCanvas;
