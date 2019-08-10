@@ -13,12 +13,13 @@
 #include "button.h"
 
 enum class ToolType {
-    PaintBrush  = 0,
-    Fill        = 1,
-    Line        = 2,
-    Pencil      = 3,
-    SprayCan    = 4,
-    Square      = 5
+    PaintBrush,
+    Fill,
+    Line,
+    Pencil,
+    SprayCan,
+    Square,
+    Eraser    
 };
 
 //////////
@@ -26,8 +27,7 @@ enum class ToolType {
 /// PAINT
 ///
 //////////
-void paintOntoCanvas(sf::Event& e, std::function<void(unsigned, unsigned)> callback) {
-    int radius = 4;
+void paintOntoCanvas(sf::Event& e, int radius, std::function<void(unsigned, unsigned)> callback) {
     for (int y = -radius; y <= radius; y++) {
         for (int x = -radius; x <= radius; x++) {
             int actualX = e.mouseMove.x + x;
@@ -107,12 +107,14 @@ int main() {
     sf::Texture pencilIcon;
     sf::Texture sprayCanIcon;
     sf::Texture squareIcon;
+    sf::Texture eraserIcon;
     paintBrushIcon.loadFromFile("res/paintbrush.png");
     fillIcon.loadFromFile("res/fill.png");
     lineIcon.loadFromFile("res/line.png");
     pencilIcon.loadFromFile("res/pencil.png");
     sprayCanIcon.loadFromFile("res/spraycan.png");
     squareIcon.loadFromFile("res/square.png");
+    eraserIcon.loadFromFile("res/erase.png");
 
     auto paintBrushButton = makeButton(paintBrushIcon);
     auto fillButton = makeButton(fillIcon);
@@ -120,6 +122,7 @@ int main() {
     auto pencilButton = makeButton(pencilIcon);
     auto sprayButton = makeButton(sprayCanIcon);
     auto squareButton = makeButton(squareIcon);
+    auto eraserButton = makeButton(eraserIcon);
 
     //Mouse state
     bool mouseLeftDown = false;
@@ -153,6 +156,9 @@ int main() {
                             else if (squareButton.isClicked(e)) {
                                 currentTool = ToolType::Square;
                             }
+                            else if (eraserButton.isClicked(e)) {
+                                currentTool = ToolType::Eraser;
+                            }
                             mouseLeftDown = true;
                             break;
 
@@ -182,10 +188,9 @@ int main() {
 
                 case sf::Event::MouseMoved:
                     if (mouseLeftDown) {
-                        switch (currentTool)
-                        {
+                        switch (currentTool) {
                             case ToolType::PaintBrush:
-                                paintOntoCanvas(e, [&canvas](unsigned x, unsigned y) {
+                                paintOntoCanvas(e, 4, [&canvas](unsigned x, unsigned y) {
                                     canvas.changePixel(x, y, sf::Color::Black);
                                 });
                                 break;
@@ -198,10 +203,13 @@ int main() {
                                 break;
 
                             case ToolType::Pencil:
+                                paintOntoCanvas(e, 1, [&canvas](unsigned x, unsigned y) {
+                                    canvas.changePixel(x, y, sf::Color::Black);
+                                });
                                 break;
 
                             case ToolType::SprayCan:
-                                paintOntoCanvas(e, [&canvas](unsigned x, unsigned y) {
+                                paintOntoCanvas(e, 4, [&canvas](unsigned x, unsigned y) {
                                     if (std::rand() % 100 > 50) {
                                         canvas.changePixel(x, y, sf::Color::Black);
                                     }
@@ -210,12 +218,16 @@ int main() {
 
                             case ToolType::Square:
                                 break;
+
+                            case ToolType::Eraser:
+                                paintOntoCanvas(e, 4, [&canvas](unsigned x, unsigned y) {
+                                    canvas.erasePixel(x, y);
+                                });
+                                break;
                         };
                     }
-                    else if (mouseRightDown) {
-                        paintOntoCanvas(e, [&canvas](unsigned x, unsigned y) {
-                            canvas.erasePixel(x, y);
-                        });
+                    if (mouseRightDown) {
+
                     }
                     break;
 
@@ -240,6 +252,7 @@ int main() {
         pencilButton.render(window);
         sprayButton.render(window);
         squareButton.render(window);
+        eraserButton.render(window);
 
 
 
