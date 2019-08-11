@@ -5,7 +5,7 @@
 Button::Button(int x, int y, const sf::Texture& texture)
 :   m_button    ({Button::BUTTON_SIZE, Button::BUTTON_SIZE})
 {
-    m_button.setPosition(x, y);
+    m_button.setPosition((float)x, (float)y);
     m_button.setTexture(&texture);
 
     m_button.setOutlineColor(sf::Color::Black);
@@ -20,7 +20,7 @@ bool Button::isClicked(sf::Event e) const {
             {
                 case sf::Mouse::Left:
                     return m_button.getGlobalBounds().contains(
-                        e.mouseButton.x, e.mouseButton.y
+						(float)e.mouseButton.x, (float)e.mouseButton.y
                     );
                 
                 default:
