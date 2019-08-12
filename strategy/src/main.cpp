@@ -131,7 +131,7 @@ int main() {
     ToolType currentTool = ToolType::PaintBrush;
 
     sf::Vector2f mouseDownLocation;
-    sf::Vector2f endPosition;
+    sf::Vector2f mouseCurrentPosition;
 
     //Main loop
     while (window.isOpen()) {
@@ -183,8 +183,8 @@ int main() {
                         case sf::Mouse::Left:
                             switch(currentTool) {
                                 case ToolType::Line:{
-                                    float dx = mouseDownLocation.x - endPosition.x;
-                                    float dy = mouseDownLocation.y - endPosition.y;
+                                    float dx = mouseDownLocation.x - mouseCurrentPosition.x;
+                                    float dy = mouseDownLocation.y - mouseCurrentPosition.y;
 
                                     float length = std::sqrt(dx * dx + dy + dy);
 
@@ -203,6 +203,35 @@ int main() {
                                     }
                                     break;
 
+                                case ToolType::Square:{
+                                    for (float x = mouseDownLocation.x; x < mouseCurrentPosition.x; x++) {
+                                        canvas.changePixel(
+                                            (unsigned)x, 
+                                            (unsigned)mouseDownLocation.y, 
+                                            sf::Color::Black
+                                        );
+                                        canvas.changePixel(
+                                            (unsigned)x, 
+                                            (unsigned)mouseCurrentPosition.y, 
+                                            sf::Color::Black
+                                        );
+                                    }
+                                    for (float y = mouseDownLocation.y; y < mouseCurrentPosition.y; y++) {
+                                        canvas.changePixel(
+                                            (unsigned)mouseDownLocation.x, 
+                                            (unsigned)y, 
+                                            sf::Color::Black
+                                        );
+                                        canvas.changePixel(
+                                            (unsigned)mouseCurrentPosition.x, 
+                                            (unsigned)y, 
+                                            sf::Color::Black
+                                        );
+                                    }
+                                }
+
+                                break;
+
                                 default:
                                     break;
                             }
@@ -219,7 +248,7 @@ int main() {
                     break;
 
                 case sf::Event::MouseMoved:
-                    endPosition = {(float)e.mouseMove.x, (float)e.mouseMove.y};
+                    mouseCurrentPosition = {(float)e.mouseMove.x, (float)e.mouseMove.y};
                     if (mouseLeftDown) {
                         switch (currentTool) {
                             case ToolType::PaintBrush:
@@ -292,9 +321,24 @@ int main() {
                 if (mouseLeftDown) {
                     std::vector<sf::Vertex> line = {
                         sf::Vertex(mouseDownLocation, sf::Color::Black),
-                        sf::Vertex(endPosition, sf::Color::Black),
+                        sf::Vertex(mouseCurrentPosition, sf::Color::Black),
                     };
                     window.draw(line.data(), 2, sf::Lines);
+                }
+            }break;
+
+            case ToolType::Square: {
+                if (mouseLeftDown) {
+                    sf::RectangleShape square;
+                    square.setOutlineColor(sf::Color::Black);
+                    square.setFillColor(sf::Color::Transparent);
+                    square.setOutlineThickness(1);
+                    square.setPosition(mouseDownLocation);
+                    square.setSize({
+                        mouseCurrentPosition.x - mouseDownLocation.x,
+                        mouseCurrentPosition.y - mouseDownLocation.y
+                    });
+                    window.draw(square);
                 }
             }break;
 
