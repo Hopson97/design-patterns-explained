@@ -182,8 +182,25 @@ int main() {
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
                             switch(currentTool) {
-                                case ToolType::Line:
-                                    
+                                case ToolType::Line:{
+                                    float dx = mouseDownLocation.x - endPosition.x;
+                                    float dy = mouseDownLocation.y - endPosition.y;
+
+                                    float length = std::sqrt(dx * dx + dy + dy);
+
+                                    float normX = dx / length;
+                                    float normY = dy / length;
+
+                                    sf::Vector2f cursorPos = mouseDownLocation;
+                                    for (float i = 0; i < length; i++) {
+                                        canvas.changePixel(
+                                            (unsigned)cursorPos.x, 
+                                            (unsigned)cursorPos.y, 
+                                            sf::Color::Black);
+                                        cursorPos -= {normX, normY};
+                                    }
+
+                                    }
                                     break;
 
                                 default:
