@@ -130,6 +130,9 @@ int main() {
 
     ToolType currentTool = ToolType::PaintBrush;
 
+    sf::Vector2f mouseDownLocation;
+    sf::Vector2f endPosition;
+
     //Main loop
     while (window.isOpen()) {
         sf::Event e;
@@ -138,6 +141,7 @@ int main() {
                 case sf::Event::MouseButtonPressed:
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
+                            mouseDownLocation = {(float)e.mouseButton.x, (float)e.mouseButton.y};
                             if (paintBrushButton.isClicked(e)) {
                                 currentTool = ToolType::PaintBrush;
                             }
@@ -159,6 +163,9 @@ int main() {
                             else if (eraserButton.isClicked(e)) {
                                 currentTool = ToolType::Eraser;
                             }
+                            else {
+
+                            }
                             mouseLeftDown = true;
                             break;
 
@@ -174,6 +181,14 @@ int main() {
                 case sf::Event::MouseButtonReleased:
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
+                            switch(currentTool) {
+                                case ToolType::Line:
+                                    
+                                    break;
+
+                                default:
+                                    break;
+                            }
                             mouseLeftDown = false;
                             break;
 
@@ -187,6 +202,7 @@ int main() {
                     break;
 
                 case sf::Event::MouseMoved:
+                    endPosition = {(float)e.mouseMove.x, (float)e.mouseMove.y};
                     if (mouseLeftDown) {
                         switch (currentTool) {
                             case ToolType::PaintBrush:
@@ -253,6 +269,21 @@ int main() {
         sprayButton.render(window);
         squareButton.render(window);
         eraserButton.render(window);
+
+        switch (currentTool) {
+            case ToolType::Line:{
+                if (mouseLeftDown) {
+                    std::vector<sf::Vertex> line = {
+                        sf::Vertex(mouseDownLocation, sf::Color::Black),
+                        sf::Vertex(endPosition, sf::Color::Black),
+                    };
+                    window.draw(line.data(), 2, sf::Lines);
+                }
+            }break;
+
+            default:
+                break;
+        }
 
 
 
