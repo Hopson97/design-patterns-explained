@@ -1,0 +1,15 @@
+# Project binaries
+/bin
+
+#Visa
+*.dll
+
+*.vs
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+
+Debug/
+Release/
+
+.sln

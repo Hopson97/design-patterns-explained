@@ -86,7 +86,7 @@ int main() {
     sf::RenderWindow window({WIDTH, HEIGHT}, "Fake Paint", sf::Style::Close);
     window.setFramerateLimit(60);
     
-    std::srand(std::time_t(nullptr)); //I know rand() is bad, but it is fine for this
+    std::srand(std::time_t(0)); //I know rand() is bad, but it is fine for this
 
     Canvas canvas(WIDTH, HEIGHT - TOOLBAR_HEIGHT, 0, 0);
 
