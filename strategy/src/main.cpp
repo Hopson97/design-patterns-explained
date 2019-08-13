@@ -71,7 +71,53 @@ void flood (Canvas& canvas, sf::Color fillColour, sf::Color targetColour, unsign
 }
 
 void fill(sf::Event e, Canvas& canvas, sf::Color fillColour, sf::Color targetColour) {
-    flood(canvas, fillColour, targetColour, e.mouseMove.x, e.mouseMove.y, 0);
+	flood(canvas, fillColour, targetColour, e.mouseMove.x, e.mouseMove.y, 0);
+}
+
+void createLine(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begin) {
+	float dx = begin.x - e.mouseButton.x;
+	float dy = begin.y - e.mouseButton.y;
+
+	float length = std::sqrt(dx * dx + dy + dy);
+
+	float normX = dx / length;
+	float normY = dy / length;
+
+	sf::Vector2f cursorPos = begin;
+	for (float i = 0; i < length; i++) {
+		canvas.changePixel(
+			(unsigned)cursorPos.x,
+			(unsigned)cursorPos.y,
+			sf::Color::Black);
+		cursorPos -= {normX, normY};
+	}
+}
+
+void createSquare(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begin) {
+	for (float x = begin.x; x < e.mouseButton.x; x++) {
+		canvas.changePixel(
+			(unsigned)x,
+			(unsigned)begin.y,
+			sf::Color::Black
+		);
+		canvas.changePixel(
+			(unsigned)x,
+			(unsigned)e.mouseButton.y,
+			sf::Color::Black
+		);
+	}
+	for (float y = begin.y; y < e.mouseButton.y; y++) {
+		canvas.changePixel(
+			(unsigned)begin.x,
+			(unsigned)y,
+			sf::Color::Black
+		);
+		canvas.changePixel(
+			(unsigned)e.mouseButton.x,
+			(unsigned)y,
+			sf::Color::Black
+		);
+	}
 }
 
 Button makeButton(const sf::Texture& icon) {
@@ -182,55 +228,13 @@ int main() {
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
                             switch(currentTool) {
-                                case ToolType::Line:{
-                                    float dx = mouseDownLocation.x - mouseCurrentPosition.x;
-                                    float dy = mouseDownLocation.y - mouseCurrentPosition.y;
-
-                                    float length = std::sqrt(dx * dx + dy + dy);
-
-                                    float normX = dx / length;
-                                    float normY = dy / length;
-
-                                    sf::Vector2f cursorPos = mouseDownLocation;
-                                    for (float i = 0; i < length; i++) {
-                                        canvas.changePixel(
-                                            (unsigned)cursorPos.x, 
-                                            (unsigned)cursorPos.y, 
-                                            sf::Color::Black);
-                                        cursorPos -= {normX, normY};
-                                    }
-
-                                    }
+                                case ToolType::Line:
+									createLine(e, canvas, sf::Color::Black, mouseDownLocation);
                                     break;
 
-                                case ToolType::Square:{
-                                    for (float x = mouseDownLocation.x; x < mouseCurrentPosition.x; x++) {
-                                        canvas.changePixel(
-                                            (unsigned)x, 
-                                            (unsigned)mouseDownLocation.y, 
-                                            sf::Color::Black
-                                        );
-                                        canvas.changePixel(
-                                            (unsigned)x, 
-                                            (unsigned)mouseCurrentPosition.y, 
-                                            sf::Color::Black
-                                        );
-                                    }
-                                    for (float y = mouseDownLocation.y; y < mouseCurrentPosition.y; y++) {
-                                        canvas.changePixel(
-                                            (unsigned)mouseDownLocation.x, 
-                                            (unsigned)y, 
-                                            sf::Color::Black
-                                        );
-                                        canvas.changePixel(
-                                            (unsigned)mouseCurrentPosition.x, 
-                                            (unsigned)y, 
-                                            sf::Color::Black
-                                        );
-                                    }
-                                }
-
-                                break;
+                                case ToolType::Square:
+									createSquare(e, canvas, sf::Color::Black, mouseDownLocation);
+									break;
 
                                 default:
                                     break;
