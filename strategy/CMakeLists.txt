@@ -8,7 +8,6 @@ set(SOURCES
     src/button.cpp
     src/canvas.cpp
     src/main.cpp
-    src/Source.cpp
     src/tool_strategy/fill_bucket_tool_strategy.cpp
     src/tool_strategy/line_tool_strategy.cpp
     src/tool_strategy/paint_brush_strategy.cpp

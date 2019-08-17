@@ -23,16 +23,11 @@ namespace {
     }
 }
 
-void FillBucketToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Colours& colours) {
+void FillBucketToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Options& options) {
     float x = e.mouseButton.x;
     float y = e.mouseButton.y;
     const auto target = canvas.getPixelColour(x, y);
-    if(target) {
-        flood(canvas, colours.primaryColour, *target, x, y, 0);
+    if (target) {
+        flood(canvas, options.primaryColour, *target, x, y, 0);
     }
 }
-
-void FillBucketToolStrategy::handleMouseUp(sf::Event e, Canvas& canvas, const Colours& colours) { }
-
-void FillBucketToolStrategy::handleMouseMove(sf::Event e, Canvas& canvas, const Colours& colours) { }
-

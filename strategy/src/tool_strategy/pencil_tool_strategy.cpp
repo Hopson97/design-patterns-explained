@@ -2,15 +2,10 @@
 
 #include "../canvas.h"
 
-void PencilToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Colours& colours) {
-
+void PencilToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Options& options) {
+        canvas.changePixel(
+        e.mouseMove.x,
+        e.mouseMove.y,
+        options.primaryColour
+    );
 }
-
-void PencilToolStrategy::handleMouseUp(sf::Event e, Canvas& canvas, const Colours& colours) {
-
-}
-
-void PencilToolStrategy::handleMouseMove(sf::Event e, Canvas& canvas, const Colours& colours) {
-
-}
-
