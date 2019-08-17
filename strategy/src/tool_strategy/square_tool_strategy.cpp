@@ -2,15 +2,15 @@
 
 #include "../canvas.h"
 
-void SquareToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas) {
+void SquareToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Colours& colours) {
 
 }
 
-void SquareToolStrategy::handleMouseUp(sf::Event e, Canvas& canvas) {
+void SquareToolStrategy::handleMouseUp(sf::Event e, Canvas& canvas, const Colours& colours) {
 
 }
 
-void SquareToolStrategy::handleMouseMove(sf::Event e, Canvas& canvas) {
+void SquareToolStrategy::handleMouseMove(sf::Event e, Canvas& canvas, const Colours& colours) {
 
 }
 

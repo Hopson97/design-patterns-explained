@@ -70,11 +70,11 @@ void flood (Canvas& canvas, sf::Color fillColour, sf::Color targetColour, unsign
     }
 }
 
-void fill(sf::Event e, Canvas& canvas, sf::Color fillColour, sf::Color targetColour) {
+void fill(sf::Event e, Canvas& canvas, const Colours& colours, sf::Color fillColour, sf::Color targetColour) {
 	flood(canvas, fillColour, targetColour, e.mouseMove.x, e.mouseMove.y, 0);
 }
 
-void createLine(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begin) {
+void createLine(sf::Event e, Canvas& canvas, const Colours& colours, sf::Color, const sf::Vector2f& begin) {
 	float dx = begin.x - e.mouseButton.x;
 	float dy = begin.y - e.mouseButton.y;
 
@@ -93,7 +93,7 @@ void createLine(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begi
 	}
 }
 
-void createSquare(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begin) {
+void createSquare(sf::Event e, Canvas& canvas, const Colours& colours, sf::Color, const sf::Vector2f& begin) {
 	for (float x = begin.x; x < e.mouseButton.x; x++) {
 		canvas.changePixel(
 			(unsigned)x,

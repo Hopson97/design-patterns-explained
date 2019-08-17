@@ -2,15 +2,15 @@
 
 #include "../canvas.h"
 
-void LineToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas) {
+void LineToolStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Colours& colours) {
 
 }
 
-void LineToolStrategy::handleMouseUp(sf::Event e, Canvas& canvas) {
+void LineToolStrategy::handleMouseUp(sf::Event e, Canvas& canvas, const Colours& colours) {
 
 }
 
-void LineToolStrategy::handleMouseMove(sf::Event e, Canvas& canvas) {
+void LineToolStrategy::handleMouseMove(sf::Event e, Canvas& canvas, const Colours& colours) {
 
 }
 
