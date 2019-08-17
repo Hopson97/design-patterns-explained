@@ -27,6 +27,8 @@ class ToolTypeStrategy {
 class PaintBrushStrategy : public ToolTypeStrategy {
 	public:
 		void handleMouseDown(sf::Event e, Canvas& canvas, const Options& options) override;
+		void handleMouseUp(sf::Event e, Canvas& canvas, const Options& options) override;
+		void handleMouseMove(sf::Event e, Canvas& canvas, const Options& options) override;
 };
 
 class FillBucketToolStrategy : public ToolTypeStrategy {
@@ -37,11 +39,15 @@ class FillBucketToolStrategy : public ToolTypeStrategy {
 class SprayCanToolStrategy : public ToolTypeStrategy {
 	public:
 		void handleMouseDown(sf::Event e, Canvas& canvas, const Options& options) override;
+		void handleMouseUp(sf::Event e, Canvas& canvas, const Options& options) override;
+		void handleMouseMove(sf::Event e, Canvas& canvas, const Options& options) override;
 };
 
 class PencilToolStrategy : public ToolTypeStrategy {
 	public:
 		void handleMouseDown(sf::Event e, Canvas& canvas, const Options& options) override;
+		void handleMouseUp(sf::Event e, Canvas& canvas, const Options& options) override;
+		void handleMouseMove(sf::Event e, Canvas& canvas, const Options& options) override;
 };
 
 class LineToolStrategy : public ToolTypeStrategy {

@@ -4,7 +4,15 @@
 
 #include <cmath>
 
-void PaintBrushStrategy::handleMouseDown(sf::Event e, Canvas& canvas, const Options& options) {
+void PaintBrushStrategy::handleMouseDown([[maybe_unused]] sf::Event e, [[maybe_unused]] Canvas& canvas, [[maybe_unused]] const Options& options) {
+
+}
+
+void PaintBrushStrategy::handleMouseUp([[maybe_unused]] sf::Event e, [[maybe_unused]] Canvas& canvas, [[maybe_unused]] const Options& options) {
+
+}
+
+void PaintBrushStrategy::handleMouseMove(sf::Event e, Canvas& canvas, const Options& options) {
     auto radius = options.penRadius;
     for (int y = -radius; y <= radius; y++) {
         for (int x = -radius; x <= radius; x++) {

@@ -7,118 +7,12 @@
 #include <cmath>
 #include <random>
 #include <cstdlib>
+#include <memory>
 
 #include "canvas.h"
 #include "constants.h"
 #include "button.h"
-
-enum class ToolType {
-    PaintBrush,
-    Fill,
-    Line,
-    Pencil,
-    SprayCan,
-    Square,
-    Eraser    
-};
-
-//////////
-///
-/// PAINT
-///
-//////////
-void paintOntoCanvas(sf::Event& e, int radius, std::function<void(unsigned, unsigned)> callback) {
-    for (int y = -radius; y <= radius; y++) {
-        for (int x = -radius; x <= radius; x++) {
-            int actualX = e.mouseMove.x + x;
-            int actualY = e.mouseMove.y + y;
-
-            int dx = std::abs(e.mouseMove.x - actualX);
-            int dy = std::abs(e.mouseMove.y - actualY);
-
-            if(std::sqrt(dx * dx + dy * dy) <= radius) {
-                callback(
-                    e.mouseMove.x + x,
-                    e.mouseMove.y + y 
-                );
-            }
-        }
-    }
-}
-
-//////////
-///
-/// FLOOD
-///
-//////////
-void flood (Canvas& canvas, sf::Color fillColour, sf::Color targetColour, unsigned x, unsigned y, int count) {
-    if (count > 50000) {
-        return;
-    }
-    auto pxColour = canvas.getPixelColour(x, y);
-    if(pxColour) {
-        auto r = pxColour->r;
-        auto g = pxColour->r;
-        auto b = pxColour->r;
-        if (r == targetColour.r && g == targetColour.g && b == targetColour.b) {
-            canvas.changePixel(x, y, fillColour);
-            flood(canvas, fillColour, targetColour, x + 1, y, count++);
-            flood(canvas, fillColour, targetColour, x - 1, y, count++);
-            flood(canvas, fillColour, targetColour, x, y + 1, count++);
-            flood(canvas, fillColour, targetColour, x, y - 1, count++);
-        }
-    }
-}
-
-void fill(sf::Event e, Canvas& canvas, sf::Color fillColour, sf::Color targetColour) {
-	flood(canvas, fillColour, targetColour, e.mouseMove.x, e.mouseMove.y, 0);
-}
-
-void createLine(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begin) {
-	float dx = begin.x - e.mouseButton.x;
-	float dy = begin.y - e.mouseButton.y;
-
-	float length = std::sqrt(dx * dx + dy + dy);
-
-	float normX = dx / length;
-	float normY = dy / length;
-
-	sf::Vector2f cursorPos = begin;
-	for (float i = 0; i < length; i++) {
-		canvas.changePixel(
-			(unsigned)cursorPos.x,
-			(unsigned)cursorPos.y,
-			sf::Color::Black);
-		cursorPos -= {normX, normY};
-	}
-}
-
-void createSquare(sf::Event e, Canvas& canvas, sf::Color, const sf::Vector2f& begin) {
-	for (float x = begin.x; x < e.mouseButton.x; x++) {
-		canvas.changePixel(
-			(unsigned)x,
-			(unsigned)begin.y,
-			sf::Color::Black
-		);
-		canvas.changePixel(
-			(unsigned)x,
-			(unsigned)e.mouseButton.y,
-			sf::Color::Black
-		);
-	}
-	for (float y = begin.y; y < e.mouseButton.y; y++) {
-		canvas.changePixel(
-			(unsigned)begin.x,
-			(unsigned)y,
-			sf::Color::Black
-		);
-		canvas.changePixel(
-			(unsigned)e.mouseButton.x,
-			(unsigned)y,
-			sf::Color::Black
-		);
-	}
-}
+#include "tool_strategy/tool_type_strategy.h"
 
 Button makeButton(const sf::Texture& icon) {
     static int currentX = 10;
@@ -170,15 +64,11 @@ int main() {
     auto squareButton = makeButton(squareIcon);
     auto eraserButton = makeButton(eraserIcon);
 
+    std::unique_ptr<ToolTypeStrategy> currentTool = std::make_unique<PaintBrushStrategy>();
+    Options options;
+
     //Mouse state
     bool mouseLeftDown = false;
-    bool mouseRightDown = false;
-
-    ToolType currentTool = ToolType::PaintBrush;
-
-    sf::Vector2f mouseDownLocation;
-    sf::Vector2f mouseCurrentPosition;
-
     //Main loop
     while (window.isOpen()) {
         sf::Event e;
@@ -187,36 +77,28 @@ int main() {
                 case sf::Event::MouseButtonPressed:
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
-                            mouseDownLocation = {(float)e.mouseButton.x, (float)e.mouseButton.y};
                             if (paintBrushButton.isClicked(e)) {
-                                currentTool = ToolType::PaintBrush;
+                                currentTool = std::make_unique<PaintBrushStrategy>();
                             }
                             else if (fillButton.isClicked(e)) {
-                                currentTool = ToolType::Fill;
+                                currentTool = std::make_unique<FillBucketToolStrategy>();
                             }
                             else if (pencilButton.isClicked(e)) {
-                                currentTool = ToolType::Pencil;
+                                currentTool = std::make_unique<PencilToolStrategy>();
                             }
                             else if (sprayButton.isClicked(e)) {
-                                currentTool = ToolType::SprayCan;
+                                currentTool = std::make_unique<SprayCanToolStrategy>();
                             }
                             else if (lineButton.isClicked(e)) {
-                                currentTool = ToolType::Line;
+                                currentTool = std::make_unique<LineToolStrategy>();
                             }
                             else if (squareButton.isClicked(e)) {
-                                currentTool = ToolType::Square;
-                            }
-                            else if (eraserButton.isClicked(e)) {
-                                currentTool = ToolType::Eraser;
+                                currentTool = std::make_unique<SquareToolStrategy>();
                             }
                             else {
-
+                                currentTool->handleMouseDown(e, canvas, options);
+                                mouseLeftDown = true;
                             }
-                            mouseLeftDown = true;
-                            break;
-
-                        case sf::Mouse::Right:
-                            mouseRightDown = true;
                             break;
 
                         default:
@@ -227,23 +109,8 @@ int main() {
                 case sf::Event::MouseButtonReleased:
                     switch(e.mouseButton.button) {
                         case sf::Mouse::Left:
-                            switch(currentTool) {
-                                case ToolType::Line:
-									createLine(e, canvas, sf::Color::Black, mouseDownLocation);
-                                    break;
-
-                                case ToolType::Square:
-									createSquare(e, canvas, sf::Color::Black, mouseDownLocation);
-									break;
-
-                                default:
-                                    break;
-                            }
+                            currentTool->handleMouseUp(e, canvas, options);
                             mouseLeftDown = false;
-                            break;
-
-                        case sf::Mouse::Right:
-                            mouseRightDown = false;
                             break;
 
                         default:
@@ -252,48 +119,8 @@ int main() {
                     break;
 
                 case sf::Event::MouseMoved:
-                    mouseCurrentPosition = {(float)e.mouseMove.x, (float)e.mouseMove.y};
                     if (mouseLeftDown) {
-                        switch (currentTool) {
-                            case ToolType::PaintBrush:
-                                paintOntoCanvas(e, 4, [&canvas](unsigned x, unsigned y) {
-                                    canvas.changePixel(x, y, sf::Color::Black);
-                                });
-                                break;
-
-                            case ToolType::Fill:
-                                fill(e, canvas, sf::Color::Black, sf::Color::White);
-                                break;
-
-                            case ToolType::Line:
-                                break;
-
-                            case ToolType::Pencil:
-                                paintOntoCanvas(e, 1, [&canvas](unsigned x, unsigned y) {
-                                    canvas.changePixel(x, y, sf::Color::Black);
-                                });
-                                break;
-
-                            case ToolType::SprayCan:
-                                paintOntoCanvas(e, 4, [&canvas](unsigned x, unsigned y) {
-                                    if (std::rand() % 100 > 50) {
-                                        canvas.changePixel(x, y, sf::Color::Black);
-                                    }
-                                });
-                                break;
-
-                            case ToolType::Square:
-                                break;
-
-                            case ToolType::Eraser:
-                                paintOntoCanvas(e, 4, [&canvas](unsigned x, unsigned y) {
-                                    canvas.erasePixel(x, y);
-                                });
-                                break;
-                        };
-                    }
-                    if (mouseRightDown) {
-
+                        currentTool->handleMouseMove(e, canvas, options);
                     }
                     break;
 
@@ -320,40 +147,9 @@ int main() {
         squareButton.render(window);
         eraserButton.render(window);
 
-        switch (currentTool) {
-            case ToolType::Line:{
-                if (mouseLeftDown) {
-                    std::vector<sf::Vertex> line = {
-                        sf::Vertex(mouseDownLocation, sf::Color::Black),
-                        sf::Vertex(mouseCurrentPosition, sf::Color::Black),
-                    };
-                    window.draw(line.data(), 2, sf::Lines);
-                }
-            }break;
-
-            case ToolType::Square: {
-                if (mouseLeftDown) {
-                    sf::RectangleShape square;
-                    square.setOutlineColor(sf::Color::Black);
-                    square.setFillColor(sf::Color::Transparent);
-                    square.setOutlineThickness(1);
-                    square.setPosition(mouseDownLocation);
-                    square.setSize({
-                        mouseCurrentPosition.x - mouseDownLocation.x,
-                        mouseCurrentPosition.y - mouseDownLocation.y
-                    });
-                    window.draw(square);
-                }
-            }break;
-
-            default:
-                break;
+        if(mouseLeftDown) {
+            currentTool->renderPreview(window);
         }
-
-
-
-
-
 
         window.display();
     }

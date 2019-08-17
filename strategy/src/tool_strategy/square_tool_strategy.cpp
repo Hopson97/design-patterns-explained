@@ -3,7 +3,7 @@
 #include "../canvas.h"
 
 void SquareToolStrategy::handleMouseDown(sf::Event e, [[maybe_unused]] Canvas& canvas, [[maybe_unused]] const Options& options) {
-    m_mouseCurrentLocation = {(float)e.mouseMove.x, (float)e.mouseMove.y};
+    m_mouseDownLocation = {(float)e.mouseButton.x, (float)e.mouseButton.y};
 }
 
 void SquareToolStrategy::handleMouseUp([[maybe_unused]]  sf::Event e, Canvas& canvas, [[maybe_unused]] const Options& options) {
