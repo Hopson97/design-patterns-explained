@@ -15,11 +15,11 @@
 #include "tool_strategy/tool_type_strategy.h"
 
 Button makeButton(const sf::Texture& icon) {
-    static int currentX = 10;
+	static int currentX = 10;
 
-    Button paintBrushButton(currentX, HEIGHT - 10 - Button::BUTTON_SIZE, icon);
-    currentX += Button::BUTTON_SIZE * 2;
-    return paintBrushButton;
+	Button paintBrushButton(currentX, HEIGHT - 10 - Button::BUTTON_SIZE, icon);
+	currentX += Button::BUTTON_SIZE * 2;
+	return paintBrushButton;
 }
 
 int main() {
@@ -64,6 +64,8 @@ int main() {
     auto squareButton = makeButton(squareIcon);
     auto eraserButton = makeButton(eraserIcon);
 
+
+
     std::unique_ptr<ToolTypeStrategy> currentTool = std::make_unique<PaintBrushStrategy>();
     Options options;
 
@@ -92,9 +94,12 @@ int main() {
                             else if (lineButton.isClicked(e)) {
                                 currentTool = std::make_unique<LineToolStrategy>();
                             }
-                            else if (squareButton.isClicked(e)) {
-                                currentTool = std::make_unique<SquareToolStrategy>();
-                            }
+							else if (squareButton.isClicked(e)) {
+								currentTool = std::make_unique<SquareToolStrategy>();
+							}
+							else if (eraserButton.isClicked(e)) {
+								currentTool = std::make_unique<EraserToolStrategy>();
+							}
                             else {
                                 currentTool->handleMouseDown(e, canvas, options);
                                 mouseLeftDown = true;
