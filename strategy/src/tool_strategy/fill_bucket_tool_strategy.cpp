@@ -9,10 +9,11 @@ namespace {
         }
         auto pxColour = canvas.getPixelColour(x, y);
         if(pxColour) {
-            auto r = pxColour->r;
-            auto g = pxColour->r;
-            auto b = pxColour->r;
-            if (r == targetColour.r && g == targetColour.g && b == targetColour.b) {
+            if(pxColour == fillColour) {
+              return;
+            }
+
+            if (pxColour == targetColour) {
                 canvas.changePixel(x, y, fillColour);
                 flood(canvas, fillColour, targetColour, x + 1, y, count++);
                 flood(canvas, fillColour, targetColour, x - 1, y, count++);
