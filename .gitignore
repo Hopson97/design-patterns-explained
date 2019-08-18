@@ -13,3 +13,7 @@ Debug/
 Release/
 
 .sln
+
+#CLion
+cmake-build-debug/
+.idea/

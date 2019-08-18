@@ -14,6 +14,7 @@ set(SOURCES
     src/tool_strategy/pencil_tool_strategy.cpp
     src/tool_strategy/spray_can_strategy.cpp
     src/tool_strategy/square_tool_strategy.cpp
+    src/tool_strategy/eraser_tool_strategy.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
