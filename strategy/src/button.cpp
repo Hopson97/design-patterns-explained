@@ -2,11 +2,13 @@
 
 #include <iostream>
 
-Button::Button(int x, int y, const sf::Texture& texture)
+Button::Button(int x, int y, const std::string &iconPath)
 :   m_button    ({Button::BUTTON_SIZE, Button::BUTTON_SIZE})
 {
+
+    m_texture.loadFromFile(iconPath);
     m_button.setPosition((float)x, (float)y);
-    m_button.setTexture(&texture);
+    m_button.setTexture(&m_texture);
 
     m_button.setOutlineColor(sf::Color::Black);
     m_button.setOutlineThickness(2);

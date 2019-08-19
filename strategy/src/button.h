@@ -9,7 +9,7 @@ class Button {
     public:
         constexpr static unsigned BUTTON_SIZE = 32;
 
-        Button(int x, int y, const sf::Texture& texture);
+        Button(int x, int y, const std::string &iconPath);
 
         bool isClicked(sf::Event e) const;
 
@@ -17,4 +17,5 @@ class Button {
 
     private:
         sf::RectangleShape m_button;
+        sf::Texture m_texture;
 };
