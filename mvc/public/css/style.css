@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Open Sans', serif;
+}
+
+/*
+=====================================
+    Main Content
+=====================================
+*/
+main {
+    min-height: 90vh;
+    width: 80%;
+    margin: auto;
+}
+
+
+/*
+=====================================
+    Footer
+=====================================
+*/
+footer {
+    border-top: black solid 1px;
+    background: rgb(41, 41, 54);
+    color: white;
+    min-height: 15vh;
+}
+
+footer .content {
+    width: 80%;
+    margin: auto;
+}
