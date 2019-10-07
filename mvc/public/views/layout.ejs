@@ -1,15 +1,17 @@
 <% include partials/head.ejs%>
 
 <body>
-	<% include partials/navbar.ejs%>
-	
-	<main>
-	<h1> <% _locals.title %> </h1>
-	<%- body %>
-	</main>
+  <% include partials/navbar.ejs%>
 
-	<% include partials/footer.ejs%>
-	<% include partials/libs.ejs%>
+  <main>
+    <h1> <% _locals.title %> </h1>
+    <div class="main-content">
+      <%- body %>
+    </div>
+  </main>
+
+  <% include partials/footer.ejs%>
+  <% include partials/libs.ejs%>
 </body>
 
 </html>

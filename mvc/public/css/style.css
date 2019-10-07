@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 * {
     margin: 0;
@@ -10,7 +10,18 @@
 }
 
 body {
-    font-family: 'Open Sans', serif;
+    font-family: "Open Sans", serif;
+    background: #DDD
+}
+
+/*
+=====================================
+    Header and Nav bar
+=====================================
+*/
+.logo {
+    width: 64px;
+    height: 64px;
 }
 
 /*
@@ -22,8 +33,18 @@ main {
     min-height: 90vh;
     width: 80%;
     margin: auto;
+    margin-top: 0;
+    background: #EEE;
 }
 
+.main-content {
+    width: 90%;
+    margin: auto;
+}
+
+.vetical-allign {
+    vertical-align: middle;
+}
 
 /*
 =====================================
