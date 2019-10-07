@@ -25,6 +25,11 @@ router.post('/sign_up/', async (request, response) => {
     }
 });
 
+router.get('/sign_out/', async (request, response) => {
+    response.cookie("user", {expires: Date.now()});
+    response.redirect("/");
+});
+
 module.exports = {
     router: router
 }

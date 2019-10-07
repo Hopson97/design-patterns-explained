@@ -11,7 +11,12 @@
 				<ul class="navbar-nav">
 					<li class = "nav-item">
 						<a class = "nav-link" href = "/">Home Page</a>
-					</li>
+          </li>
+          <% if (current_user) { %>
+            <li class = "nav-item">
+              <a class = "nav-link" href = "/users/sign_out/">Sign out</a>
+            </li>
+          <%}%>
 				</ul>
 			</div>
 		</div>

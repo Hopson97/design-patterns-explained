@@ -1,5 +1,8 @@
 <% if (current_user) { %>
-  <%=JSON.stringify(current_user)%>
+  <h1 class = "p-2">
+    <%= `Welcome back, ${current_user.name}`%>
+  </h1>
+  <hr>
 <% } else { %>
 <div>
   <img src="img/logo-large.png">

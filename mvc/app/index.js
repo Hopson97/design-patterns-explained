@@ -26,19 +26,28 @@ app.set(`views`, path.join(__dirname, "/../public/views/"));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
+//Middleware 
+const auth = express.Router();
+auth.use( async (request, response, next) => {
+	response.locals.current_user = await UserModel.currentUser(request.cookies)
+	console.log("I am called!");
+	await next();
+});
+
+app.use(auth);
+
 //Controllers
 app.use("/comments/", comments.router);
 app.use("/posts/", posts.router);
 app.use("/users/", users.router);
 
+
+
 /*
  	Basic routes
 */
 app.get(`/`, async (request, response) => {
-	response.locals = {
-		title: "Home",
-		current_user: await UserModel.currentUser(request.cookies)
-	};
+	response.locals.title = "Home";
 	response.render("pages/index.ejs")
 });
 
