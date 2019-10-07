@@ -1,3 +1,6 @@
+<% if (current_user) { %>
+  <%=JSON.stringify(current_user)%>
+<% } else { %>
 <div>
   <img src="img/logo-large.png">
   <h2 class="p-1">Blogging that matters. For a better tomorow.</h2>
@@ -25,3 +28,4 @@
     </a>
   </button>
 </div>
+<%}%>

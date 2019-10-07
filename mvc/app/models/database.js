@@ -11,28 +11,28 @@ module.exports = {
     find: async (table, value, find) => {
         const json = await jsonfile.readFile(fileName);
         for (const record of json[table]) {
-            if(record[value] === find) {
+            if (record[value] == find) {
                 return record;
             }
         }
         return null;
     },
 
-    insertIntoUsers: async(email, name, password) => {
+    insertIntoUsers: async (email, name, password) => {
         const json = await jsonfile.readFile(fileName);
         console.log(await lastId(json, 'users'));
 
         const users = json.users;
-        users.push({
+        const user = {
             id: lastId(json, 'users') + 1,
             email,
             name,
             password
-        });
+        };
+        users.push(user);
 
         json.users = users;
         await jsonfile.writeFile(fileName, json);
-
-        
+        return user;
     }
 }

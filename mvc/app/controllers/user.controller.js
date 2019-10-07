@@ -19,7 +19,8 @@ router.post('/sign_up/', async (request, response) => {
         response.redirect("/");
     }
     else {
-        UserModel.create(email, name, pass);
+        const user = await UserModel.create(email, name, pass);
+        response.cookie("user", user.id)
         response.redirect("/");
     }
 });

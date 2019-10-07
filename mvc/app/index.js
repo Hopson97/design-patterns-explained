@@ -9,7 +9,7 @@ const comments = require('./controllers/comment.controller');
 const posts = require('./controllers/post.controller');
 const users = require('./controllers/user.controller');
 
-
+const UserModel = require('./models/user.model');
 
 const app = express();
 
@@ -34,12 +34,10 @@ app.use("/users/", users.router);
 /*
  	Basic routes
 */
-app.get(`/`, (request, response) => {
-	const cookie = request.cookies;
-	console.log(cookie);
+app.get(`/`, async (request, response) => {
 	response.locals = {
 		title: "Home",
-		signed_in: false
+		current_user: await UserModel.currentUser(request.cookies)
 	};
 	response.render("pages/index.ejs")
 });

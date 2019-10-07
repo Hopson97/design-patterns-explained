@@ -3,8 +3,11 @@
 const db = require('./database');
 
 module.exports = {
-    currentUser: () => {
-
+    currentUser: async (cookie) => {
+        if(cookie.user) {
+            return await db.find("users", "id", cookie.user);
+        }
+        return null;
     },
 
     userExists: async email => {
@@ -13,6 +16,6 @@ module.exports = {
     },
 
     create: async(email, name, password) => {
-        await db.insertIntoUsers(email, name, password);
+        return await db.insertIntoUsers(email, name, password);
     }
 };
