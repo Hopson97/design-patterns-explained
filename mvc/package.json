@@ -13,7 +13,8 @@
     "cookie-parser": "^1.4.4",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "express-ejs-layouts": "^2.5.0"
+    "express-ejs-layouts": "^2.5.0",
+    "jsonfile": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.3"
