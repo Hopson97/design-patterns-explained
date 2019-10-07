@@ -46,6 +46,11 @@ main {
     vertical-align: middle;
 }
 
+a {
+    text-decoration: none;
+    color: white;
+}
+
 /*
 =====================================
     Footer
