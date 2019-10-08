@@ -1,21 +1,28 @@
 "use strict"
 
 const db = require('./database');
+const Model = require('./model');
 
-module.exports = {
-    currentUser: async (cookie) => {
+class UserModel extends Model {
+    constructor() {
+        super("users")
+    }
+
+    async currentUser (cookie) {
         if(cookie.user) {
-            return await db.find("users", "id", cookie.user);
+            return await super.find(cookie.user);
         }
         return null;
-    },
+    }
 
-    userExists: async email => {
+    async userExists(email) {
         let exists = false;
-        return await db.find("users", "email", email);
-    },
+        return await super.findBy("email", email);
+    }
 
-    create: async(email, name, password) => {
+    async create(email, name, password)  {
         return await db.insertIntoUsers(email, name, password);
     }
-};
+}
+
+module.exports = new UserModel();

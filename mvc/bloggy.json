@@ -1,1 +1,1 @@
-{"users":[{"id":0,"email":"test@test.com","name":"Test","password":"test"},{"id":1,"email":"matt@m.c","name":"q","password":"a"},{"id":2,"email":"Ayylmao@lmao.com","name":"Matt","password":"123"}],"blogs":[],"comments":[]}
+{"users":[{"id":0,"email":"test@test.com","name":"Test","password":"test"},{"id":1,"email":"matt@m.c","name":"q","password":"a"},{"id":2,"email":"Ayylmao@lmao.com","name":"Matt","password":"123"},{"id":3,"email":"matt@m.cc","name":"cc","password":"c"},{"id":4,"email":"test@test.co.uk","name":"12345","password":"123"}],"blogs":[],"comments":[]}

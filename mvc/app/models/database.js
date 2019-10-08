@@ -20,8 +20,6 @@ module.exports = {
 
     insertIntoUsers: async (email, name, password) => {
         const json = await jsonfile.readFile(fileName);
-        console.log(await lastId(json, 'users'));
-
         const users = json.users;
         const user = {
             id: lastId(json, 'users') + 1,
