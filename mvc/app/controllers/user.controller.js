@@ -7,7 +7,16 @@ const router = helper.controllerRouter();
 const render = helper.makeRenderer("users");
 
 router.get('/sign_up/', (request, response) => {
-    render(response, 'sign_up')
+    render(response, 'sign_up');
+});
+
+router.get('/sign_in/', (request, response) => {
+    render(response, 'sign_in');
+});
+
+router.get('/sign_out/', (request, response) => {
+    response.cookie("user", {expires: Date.now()});
+    response.redirect("/");
 });
 
 router.post('/sign_up/', async (request, response) => {
@@ -25,10 +34,10 @@ router.post('/sign_up/', async (request, response) => {
     }
 });
 
-router.get('/sign_out/', async (request, response) => {
-    response.cookie("user", {expires: Date.now()});
-    response.redirect("/");
+router.post('/sign_in/', (request, response) => {
+    render(response, 'sign_in');
 });
+
 
 module.exports = {
     router: router

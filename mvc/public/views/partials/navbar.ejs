@@ -1,24 +1,30 @@
 <header>
-	<nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-3">
-		<a class="navbar-brand" href = "/">
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-3">
+    <a class="navbar-brand" href="/">
       <img class="logo" src="img/logo.png"></img>
-		</a>
-		<button class="navbar-toggler" data-target="#collapsibleNavbar" data-toggle="collapse" type="button">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<div class="navbar-collapse order-1 order-md-0 dual-collapse2">
-				<ul class="navbar-nav">
-					<li class = "nav-item">
-						<a class = "nav-link" href = "/">Home Page</a>
+    </a>
+    <button class="navbar-toggler" data-target="#collapsibleNavbar" data-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <div class="navbar-collapse order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home Page</a>
           </li>
-          <% if (current_user) { %>
-            <li class = "nav-item">
-              <a class = "nav-link" href = "/users/sign_out/">Sign out</a>
+          <div class='float-right'>
+            <% if (current_user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/sign_out">Sign out</a>
             </li>
-          <%}%>
-				</ul>
-			</div>
+            <%} else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/sign_in">Sign in</a>
+            </li>
+          </div>
+        </ul>
+      </div>
+      <%}%>
 		</div>
 	</nav>
 </header>
