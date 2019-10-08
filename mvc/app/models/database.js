@@ -3,7 +3,10 @@
 const jsonfile = require('jsonfile')
 const fileName = "bloggy.json";
 
-const lastId = (json, table) => json[table][json[table].length - 1].id;
+const lastId = (json, table) => {
+    const record = json[table][json[table].length - 1];
+    return record? record.id : 0;
+}
 
 
 //Fake "JSON" databse because cba for sql

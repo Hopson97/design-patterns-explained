@@ -29,6 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const auth = express.Router();
 auth.use( async (request, response, next) => {
 	response.locals.current_user = await UserModel.currentUser(request.cookies)
+	response.locals.errors = [];
 	await next();
 });
 

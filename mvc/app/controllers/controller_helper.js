@@ -11,7 +11,7 @@ module.exports = {
 
     makeRenderer: (route) => {
         return (response, page) => {
-            response.render(`pages/${route}/${page}`);
+            response.render(`pages/${route}/${page}.ejs`);
         }
     }
 }
