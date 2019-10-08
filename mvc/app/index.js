@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const comments = require('./controllers/comment.controller');
 const posts = require('./controllers/post.controller');
 const users = require('./controllers/user.controller');
+const home  = require('./controllers/home.controller');
 
 const UserModel = require('./models/user.model');
 
@@ -39,16 +40,9 @@ app.use(auth);
 app.use("/comments/", comments.router);
 app.use("/posts/", posts.router);
 app.use("/users/", users.router);
+app.use(home.router);
 
 app.use(express.static(`./public/`));
-
-/*
- 	Basic routes
-*/
-app.get(`/`, async (request, response) => {
-	response.locals.title = "Home";
-	response.render("pages/index.ejs")
-});
 
 //Start the server
 app.listen(8080, _ => {
