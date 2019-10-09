@@ -4,12 +4,10 @@ const helper = require("./controller_helper");
 
 const router = helper.controllerRouter();
 
-/**
- * Controller Action: 
- *  Get the home page
- */
+// Home Controller Action: 
+// Renders the home page
 router.get('/', (_, response) => {
-    response.render('pages/index.ejs')
+    response.render('pages/index')
 });
 
 module.exports = {

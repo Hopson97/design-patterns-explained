@@ -5,10 +5,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const comments = require('./controllers/comment.controller');
-const posts = require('./controllers/post.controller');
-const users = require('./controllers/user.controller');
-const home  = require('./controllers/home.controller');
+const commentsController = require('./controllers/comment.controller');
+const postsController = require('./controllers/post.controller');
+const usersController = require('./controllers/user.controller');
+const homeController  = require('./controllers/home.controller');
 
 const UserModel = require('./models/user.model');
 
@@ -21,6 +21,7 @@ const app = express();
 app.use(ejslayout);
 app.set(`view engine`, `ejs`);
 app.set(`views`, path.join(__dirname, "/../public/views/"));
+app.use(express.static(`./public/`));
 
 //Parsers
 app.use(cookieParser());
@@ -37,12 +38,10 @@ auth.use( async (request, response, next) => {
 app.use(auth);
 
 //Controllers
-app.use("/comments/", comments.router);
-app.use("/posts/", posts.router);
-app.use("/users/", users.router);
-app.use(home.router);
-
-app.use(express.static(`./public/`));
+app.use("/comments/", 	commentsController.router);
+app.use("/posts/", 		postsController.router);
+app.use("/users/", 		usersController.router);
+app.use(				homeController.router);
 
 //Start the server
 app.listen(8080, _ => {

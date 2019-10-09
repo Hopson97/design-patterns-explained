@@ -25,7 +25,6 @@ router.post('/sign_up', async (request, response) => {
     const email = request.body.email;
     const name = request.body.name;
     const pass = request.body.password;
-
     if (await UserModel.userExists(email)) {
         response.redirect("/");
     } else {
