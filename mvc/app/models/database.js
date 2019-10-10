@@ -42,11 +42,16 @@ module.exports = {
     },
 
     insertIntoPosts: async (title, content, date, userId) => {
-        return insert('users', {
+        return insert('posts', {
             title,
             content,
             date,
             userId
         });
+    },
+
+    getAll: async (table) => {
+        const json = await jsonfile.readFile(fileName);
+        return json[table];
     }
 }

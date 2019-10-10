@@ -4,3 +4,11 @@
 <hr>
 <% include ../posts/_form.ejs %>
 <hr>
+<% for (const post of posts.reverse()) { %>
+  <h4 class='post_title p-2'>
+    <%= post.title %>
+  </h4>
+  <p class='post_title p-2'>
+    <%= post.content %>
+  </p>
+<% } %>

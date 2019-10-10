@@ -14,4 +14,8 @@ module.exports = class Model {
     async findBy(table, value) {
         return await db.find(this.name, table, value);
     }
+
+    async all() {
+        return await db.getAll(this.name);
+    }
 }
