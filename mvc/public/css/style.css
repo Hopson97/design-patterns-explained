@@ -31,14 +31,14 @@ body {
 */
 main {
     min-height: 90vh;
-    width: 80%;
+    width: 60%;
     margin: auto;
     margin-top: 0;
     background: #EEE;
 }
 
 .main-content {
-    width: 90%;
+    width: 60%;
     margin: auto;
 }
 

@@ -8,6 +8,18 @@ const lastId = (json, table) => {
     return record? record.id : 0;
 }
 
+async function insert(tableName, data) {
+    const json = await jsonfile.readFile(fileName);
+    const table = json[tableName];
+
+    data.id = lastId(json, tableName) + 1;
+    table.push(data);
+
+    json[tableName] = table;
+    await jsonfile.writeFile(fileName, json);
+    return data;
+}
+
 
 //Fake "JSON" databse because cba for sql
 module.exports = {
@@ -22,18 +34,19 @@ module.exports = {
     },
 
     insertIntoUsers: async (email, name, password) => {
-        const json = await jsonfile.readFile(fileName);
-        const users = json.users;
-        const user = {
-            id: lastId(json, 'users') + 1,
+        return insert('users', {
             email,
             name,
             password
-        };
-        users.push(user);
+        });
+    },
 
-        json.users = users;
-        await jsonfile.writeFile(fileName, json);
-        return user;
+    insertIntoPosts: async (title, content, date, userId) => {
+        return insert('users', {
+            title,
+            content,
+            date,
+            userId
+        });
     }
 }
