@@ -1,34 +1,5 @@
 <% if (current_user) { %>
-  <h1 class = "p-2">
-    <%= `Welcome back, ${current_user.name}`%>
-  </h1>
-  <hr>
+  <% include home/_signed_in.ejs%>
 <% } else { %>
-<div>
-  <img src="img/logo-large.png">
-  <h2 class="p-1">Blogging that matters. For a better tomorow.</h2>
-</div>
-<hr>
-<div class="pt-2">
-  <h3 class="p-1">
-    Welcome to bloggy.
-  </h3>
-  <p class="p-1">
-    Bloggy is an ultra futuristic bloging website.
-  </p>
-  <p class="p-1">
-    Bloggy is an ultra simple bloging website.
-  </p>
-  <p class="p-1">
-    Bloggy is an ultra usable bloging website.
-  </p>
-  <p class="p-1">
-    Bloggy is bloggy.
-  </p>
-  <button class="btn btn-dark">
-    <a href="/users/sign_up">
-      Get Started Today. Sign up here.
-    </a>
-  </button>
-</div>
+  <% include home/_signed_out.ejs%>
 <%}%>
