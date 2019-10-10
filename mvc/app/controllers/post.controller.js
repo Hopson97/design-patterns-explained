@@ -1,12 +1,19 @@
 "use strict";
 
-const express = require('express');
+const PostsModel = require('../models/post.model');
+const UsersModel = require('../models/user.model')
+const helper = require("./controller_helper");
 
-const router = express.Router();
-router.use(express.static(`./public/`));
+const router = helper.controllerRouter();
+const render = helper.makeRenderer("users");
 
 router.post('/new', (request, response) => {
-    render(response, 'sign_up');
+    PostsModel.create(
+        request.body.blog_title, 
+        request.body.blog_content,
+        UsersModel.currentUser(request.cookies)
+    );
+    response.redirect('/');
 });
 
 module.exports = {
