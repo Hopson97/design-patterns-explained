@@ -9,7 +9,6 @@ const router = helper.controllerRouter();
 // Renders the home page
 router.get('/', async (_, response) => {
     response.locals.posts = await PostModel.all();
-    console.log(response.locals.posts);
     response.render('pages/index');
 });
 
