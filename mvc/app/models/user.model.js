@@ -16,7 +16,6 @@ class UserModel extends Model {
     }
 
     async userExists(email) {
-        let exists = false;
         return await super.findBy("email", email);
     }
 

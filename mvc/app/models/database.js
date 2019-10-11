@@ -12,6 +12,8 @@ async function insert(tableName, data) {
     const json = await jsonfile.readFile(fileName);
     const table = json[tableName];
 
+    console.log("Inserting:", data)
+
     data.id = lastId(json, tableName) + 1;
     table.push(data);
 
