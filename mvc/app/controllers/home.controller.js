@@ -10,6 +10,7 @@ const router = helper.controllerRouter();
 router.get('/', async (_, response) => {
     response.locals.posts = await PostModel.all();
     response.render('pages/index');
+    console.log(JSON.stringify(response.locals.posts, null, 2));
 });
 
 module.exports = {

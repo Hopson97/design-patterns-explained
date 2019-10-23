@@ -8,6 +8,11 @@ const lastId = (json, table) => {
     return record? record.id : 0;
 }
 
+/**
+ * Insert stuff into a table
+ * @param {String} tableName The name of the table to INSERT INTO 
+ * @param {Object} data The data to add
+ */
 async function insert(tableName, data) {
     const json = await jsonfile.readFile(fileName);
     const table = json[tableName];

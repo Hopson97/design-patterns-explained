@@ -12,7 +12,8 @@ class PostsModel extends Model {
     async all() {
         const posts = await super.all();
         for (const post of posts) {
-            post.user = await UserModel.find(post.userId);
+            const user = await UserModel.find(post.userId);
+            post.user = user.name;
         }
         return posts;
     }
@@ -24,6 +25,11 @@ class PostsModel extends Model {
             new Date().toLocaleString(),
             user.id
         );
+    }
+
+    async postsBy(userId) {
+        const posts = await super.all();
+        return posts.filter(post => post.userId == userId);
     }
 }
 

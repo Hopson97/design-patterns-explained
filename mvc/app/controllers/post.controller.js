@@ -5,7 +5,6 @@ const UsersModel = require('../models/user.model')
 const helper = require("./controller_helper");
 
 const router = helper.controllerRouter();
-const render = helper.makeRenderer("users");
 
 router.post('/new', async (request, response) => {
     const user = await UsersModel.currentUser(request.cookies);

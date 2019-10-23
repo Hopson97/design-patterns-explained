@@ -1,1 +1,78 @@
-{"users":[{"id":1,"email":"test@test.com","name":"Hopson","password":"12345"},{"id":2,"email":"red@yellow.org","name":"Red","password":"12345"},{"id":3,"email":"123@123.com","name":"123","password":"123"},{"email":"Hopson@hopsonmail.com","name":"Hopson","password":"12345","id":4},{"email":"real@real.com","name":"Smithy Smith","password":"12345","id":5}],"posts":[{"title":"Wow","content":"What a great day! I say yes, what a good day indeed\r\n","date":"10/11/2019, 7:52:05 PM","userId":4,"id":1},{"title":"This is my postr","content":"And its a pretty good post, I will not lie.","date":"10/11/2019, 8:02:22 PM","userId":4,"id":2},{"title":"ABC","content":"Just learned that A comes before B. What a discovery! ","date":"10/11/2019, 8:02:59 PM","userId":3,"id":3},{"title":"I went to a park.","content":"Sooo today I went to a park and saw a dog and it was cool and yeah this is totally not just here to pad out the homepage a bit for the homepage","date":"10/11/2019, 8:33:45 PM","userId":4,"id":4},{"title":"What is going on?","content":"This website has a hit a HUGE MILESTONE!!\r\n\r\n3 users!!\r\n\r\nOh wait they are all me :(","date":"10/11/2019, 8:34:23 PM","userId":4,"id":5},{"title":"Yep","content":"Indeed they are all me.","date":"10/11/2019, 8:35:22 PM","userId":5,"id":6},{"title":"Wow","content":"Wowowowowow","date":"10/11/2019, 8:35:51 PM","userId":5,"id":7}],"comments":[]}
+{
+    "users": [{
+        "id": 1,
+        "email": "test@test.com",
+        "name": "Hopson",
+        "password": "12345"
+    }, {
+        "id": 2,
+        "email": "red@yellow.org",
+        "name": "Red",
+        "password": "12345"
+    }, {
+        "id": 3,
+        "email": "123@123.com",
+        "name": "123",
+        "password": "123"
+    }, {
+        "email": "Hopson@hopsonmail.com",
+        "name": "Hopson",
+        "password": "12345",
+        "id": 4
+    }, {
+        "email": "real@real.com",
+        "name": "Smithy Smith",
+        "password": "12345",
+        "id": 5
+    }],
+    "posts": [{
+        "title": "Wow",
+        "content": "What a great day! I say yes, what a good day indeed\r\n",
+        "date": "10/11/2019, 7:52:05 PM",
+        "userId": 4,
+        "id": 1
+    }, 
+    {
+        "title": "This is my postr",
+        "content": "And its a pretty good post, I will not lie.",
+        "date": "10/11/2019, 8:02:22 PM",
+        "userId": 4,
+        "id": 2
+    }, 
+    {
+        "title": "ABC",
+        "content": "Just learned that A comes before B. What a discovery! ",
+        "date": "10/11/2019, 8:02:59 PM",
+        "userId": 3,
+        "id": 3
+    }, {
+        "title": "I went to a park.",
+        "content": "Sooo today I went to a park and saw a dog and it was cool and yeah this is totally not just here to pad out the homepage a bit for the homepage",
+        "date": "10/11/2019, 8:33:45 PM",
+        "userId": 4,
+        "id": 4
+    }, {
+        "title": "What is going on?",
+        "content": "This website has a hit a HUGE MILESTONE!!\r\n\r\n3 users!!\r\n\r\nOh wait they are all me :(",
+        "date": "10/11/2019, 8:34:23 PM",
+        "userId": 4,
+        "id": 5
+    }, 
+
+    {
+        "title": "Yep",
+        "content": "Indeed they are all me.",
+        "date": "10/11/2019, 8:35:22 PM",
+        "userId": 5,
+        "id": 6
+    }, 
+    
+    {
+        "title": "Wow",
+        "content": "Wowowowowow",
+        "date": "10/11/2019, 8:35:51 PM",
+        "userId": 5,
+        "id": 7
+    }],
+    "comments": []
+}
