@@ -1,0 +1,5 @@
+<% if (current_user) { %>
+  <% include home/_signed_in.ejs%>
+<% } else { %>
+  <% include home/_signed_out.ejs%>
+<%}%>

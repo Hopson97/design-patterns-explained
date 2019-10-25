@@ -1,0 +1,9 @@
+<h1 class="p-2">
+  <%= `Welcome back, ${current_user.name}`%>
+</h1>
+<hr>
+<% include ../posts/form.ejs %>
+<hr>
+<% for (const post of posts.reverse()) { %>
+  <% include ../posts/show.ejs %>
+<% } %>
