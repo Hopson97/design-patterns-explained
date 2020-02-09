@@ -14,10 +14,11 @@
 #include "button.h"
 #include "tool_strategy/tool_type_strategy.h"
 
-Button makeButton(const sf::Texture& icon) {
+
+Button makeButton(const std::string &iconPath) {
 	static int currentX = 10;
 
-	Button paintBrushButton(currentX, HEIGHT - 10 - Button::BUTTON_SIZE, icon);
+	Button paintBrushButton(currentX, HEIGHT - 10 - Button::BUTTON_SIZE, iconPath);
 	currentX += Button::BUTTON_SIZE * 2;
 	return paintBrushButton;
 }
@@ -40,31 +41,13 @@ int main() {
     toolbar.setOutlineColor(sf::Color::Black);
     toolbar.setOutlineThickness(3);
 
-    //Toolbar button textures
-    sf::Texture paintBrushIcon;
-    sf::Texture fillIcon;
-    sf::Texture lineIcon;
-    sf::Texture pencilIcon;
-    sf::Texture sprayCanIcon;
-    sf::Texture squareIcon;
-    sf::Texture eraserIcon;
-    paintBrushIcon.loadFromFile("res/paintbrush.png");
-    fillIcon.loadFromFile("res/fill.png");
-    lineIcon.loadFromFile("res/line.png");
-    pencilIcon.loadFromFile("res/pencil.png");
-    sprayCanIcon.loadFromFile("res/spraycan.png");
-    squareIcon.loadFromFile("res/square.png");
-    eraserIcon.loadFromFile("res/erase.png");
-
-    auto paintBrushButton = makeButton(paintBrushIcon);
-    auto fillButton = makeButton(fillIcon);
-    auto lineButton = makeButton(lineIcon);
-    auto pencilButton = makeButton(pencilIcon);
-    auto sprayButton = makeButton(sprayCanIcon);
-    auto squareButton = makeButton(squareIcon);
-    auto eraserButton = makeButton(eraserIcon);
-
-
+    auto paintBrushButton = makeButton("res/paintbrush.png");
+    auto fillButton = makeButton("res/fill.png");
+    auto lineButton = makeButton("res/line.png");
+    auto pencilButton = makeButton("res/pencil.png");
+    auto sprayButton = makeButton("res/spraycan.png");
+    auto squareButton = makeButton("res/square.png");
+    auto eraserButton = makeButton("res/erase.png");
 
     std::unique_ptr<ToolTypeStrategy> currentTool = std::make_unique<PaintBrushStrategy>();
     Options options;
